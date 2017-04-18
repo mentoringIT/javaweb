@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+		<property name="jndiName" value="java:comp/env/jdbc/systembank" />
+	</bean>
+
+	<bean id="usuarioService" class="mx.com.mentoringit.services.UsuarioService">
+		<property name="usuario" ref="usuarioBean"></property>
+	</bean>
+
+	<bean id="usuarioBean" class="mx.com.mentoringit.model.dao.UsuarioDAO">
+		<property name="ds" ref="dataSource"></property>
+	</bean>
+
+	<bean id="clienteService" class="mx.com.mentoringit.services.ClienteServices">
+		<constructor-arg index="0" ref="clienteDAO" />
+	</bean>
+
+	<bean id="clienteDAO" class="mx.com.mentoringit.model.dao.ClienteDAO">
+			<property name="ds" ref="dataSource"></property>
+	</bean>
+
+	<bean id="bancoService" class="mx.com.mentoringit.services.BancoService">
+		<property name="bancoDAO" ref="bancoDAO"></property>
+	</bean>
+
+	<bean id="bancoDAO" class="mx.com.mentoringit.model.dao.BancoDAO">
+		<property name="ds" ref="dataSource"></property>
+	</bean>
+
+</beans>
